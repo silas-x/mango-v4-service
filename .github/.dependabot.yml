@@ -1,7 +1,7 @@
 version: 2
 updates:
 - package-ecosystem: npm
-  directory: "/mango-service-v3"
+  directory: "/mango-service-v4"
   schedule:
     interval: daily
     time: "01:00"

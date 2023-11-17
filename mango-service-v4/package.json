@@ -1,5 +1,5 @@
 {
-  "name": "mango-service-v3",
+  "name": "mango-service-v4",
   "version": "0.0.1",
   "description": "REST API for trading against mango markets",
   "main": "./src/server.ts",

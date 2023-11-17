@@ -78,7 +78,7 @@ class WalletController implements Controller {
       mangoGroup.loadRootBanks(this.mangoSimpleClient.connection),
     ]);
 
-    ////// copy pasta block from mango-ui-v3
+    ////// copy pasta block from mango-ui-v4
     /* tslint:disable */
     const balances: Balances[][] = new Array();
 
@@ -218,7 +218,7 @@ class WalletController implements Controller {
     const tokenIndex = mangoGroup.getTokenIndex(token.mintKey);
     const value = net.mul(mangoGroup.getPrice(tokenIndex, mangoCache));
     /* tslint:enable */
-    ////// end of copy pasta block from mango-ui-v3
+    ////// end of copy pasta block from mango-ui-v4
     // append balances for base symbols
     const balanceDtos = baseBalances.map((baseBalance) => {
       return {

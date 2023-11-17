@@ -9,8 +9,8 @@ from os.path import getmtime
 
 from tenacity import retry, wait_fixed, stop_after_delay, stop_after_attempt
 
-from mango_service_v3_py.api import MangoServiceV3Client
-from mango_service_v3_py.dtos import Side, PlaceOrder
+from mango_service_v4_py.api import MangoServiceV4Client
+from mango_service_v4_py.dtos import Side, PlaceOrder
 
 # based on https://github.com/BitMEX/sample-market-maker/blob/master/market_maker/market_maker.py
 
@@ -44,7 +44,7 @@ def toNearest(num, tickDec):
 
 class MM:
     def __init__(self):
-        self.mango_service_v3_client = MangoServiceV3Client()
+        self.mango_service_v4_client = MangoServiceV4Client()
         self.market = None
         self.start_position_buy = None
         self.start_position_sell = None
@@ -52,11 +52,11 @@ class MM:
 
     # todo unused
     @retry(stop=(stop_after_delay(10) | stop_after_attempt(5)), wait=wait_fixed(5))
-    def retry_wrapper(self, mango_service_v3_client_method, *arg):
-        getattr(self.mango_service_v3_client, mango_service_v3_client_method)(arg)
+    def retry_wrapper(self, mango_service_v4_client_method, *arg):
+        getattr(self.mango_service_v4_client, mango_service_v4_client_method)(arg)
 
     def log_recent_trades(self) -> None:
-        trades = self.mango_service_v3_client.get_trades(MARKET)
+        trades = self.mango_service_v4_client.get_trades(MARKET)
         recent_trades = [
             trade
             for trade in trades
@@ -73,13 +73,13 @@ class MM:
             logger.info("")
 
     def get_ticker(self):
-        self.market = self.mango_service_v3_client.get_market_by_market_name(MARKET)[0]
+        self.market = self.mango_service_v4_client.get_market_by_market_name(MARKET)[0]
         self.start_position_buy = self.market.bid - self.market.price_increment
         self.start_position_sell = self.market.ask + self.market.price_increment
 
         self.positions = [
             position
-            for position in self.mango_service_v3_client.get_open_positions()
+            for position in self.mango_service_v4_client.get_open_positions()
             if position.future == MARKET
         ]
 
@@ -103,7 +103,7 @@ class MM:
         to_cancel = []
         buys_matched = 0
         sells_matched = 0
-        existing_orders = self.mango_service_v3_client.get_orders()
+        existing_orders = self.mango_service_v4_client.get_orders()
 
         existing_orders = sorted(existing_orders, key=lambda order_: order_.price)
         buy_orders = sorted(buy_orders, key=lambda order_: order_.price)
@@ -145,7 +145,7 @@ class MM:
                 )
             for order in to_cancel:
                 try:
-                    self.mango_service_v3_client.cancel_order_by_order_id(order.id)
+                    self.mango_service_v4_client.cancel_order_by_order_id(order.id)
                 except:
                     pass
             logger.info("")
@@ -178,7 +178,7 @@ class MM:
                     f" |_ price {order.price}, side {order.side:4}, size {order.size}, value {order.price * order.size}"
                 )
             for order in to_create:
-                self.mango_service_v3_client.place_order(
+                self.mango_service_v4_client.place_order(
                     PlaceOrder(
                         market=MARKET,
                         side=order.side,
@@ -243,12 +243,11 @@ class MM:
 
 
 if __name__ == "__main__":
-
     mm = MM()
     logger.info("cancelling all orders...")
 
     try:
-        mm.mango_service_v3_client.cancel_all_orders()
+        mm.mango_service_v4_client.cancel_all_orders()
     except Exception as e:
         logger.error(f"Exception: {e}")
 

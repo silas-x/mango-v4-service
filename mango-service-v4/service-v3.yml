@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: service-v3
+  title: service-v4
   version: 1.0.0
 servers:
   - url: http://{{baseurl}}

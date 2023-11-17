@@ -1,5 +1,5 @@
 
-A REST API server on top of mango markets v3, written in typescript + expressjs + using mango client and some other off chain REST services.
+A REST API server on top of mango markets v4, written in typescript + expressjs + using mango client and some other off chain REST services.
 
 # Environment variables
 All environment variables are optional.
@@ -14,9 +14,9 @@ All environment variables are optional.
 * `yarn ts-node ./src/server.ts` or if you have `nodemon` installed then, `nodemon ./src/server.ts`
 
 # How to run using docker
-* `docker pull microwavedcola/mango-service-v3`
-* `docker run -p 3000:3000 -v  ~/.config:/root/.config microwavedcola/mango-service-v3`, assumes private key to be present at ~/.config/solana/id.json  
+* `docker pull microwavedcola/mango-service-v4`
+* `docker run -p 3000:3000 -v  ~/.config:/root/.config microwavedcola/mango-service-v4`, assumes private key to be present at ~/.config/solana/id.json  
 
 # How to test
-* via postman, see `service-v3.postman_collection.json`
-* python client, see https://github.com/microwavedcola1/mango-v3-service/blob/master/py/README.md
+* via postman, see `service-v4.postman_collection.json`
+* python client, see https://github.com/microwavedcola1/mango-v4-service/blob/master/py/README.md

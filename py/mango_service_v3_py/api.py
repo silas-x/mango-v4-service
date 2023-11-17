@@ -6,7 +6,7 @@ from typing import List
 import httpx
 from pydantic import parse_obj_as
 
-from mango_service_v3_py.dtos import (
+from mango_service_4_py.dtos import (
     Position,
     Balance,
     Market,
@@ -32,7 +32,7 @@ def delayed(seconds):
     return decorator
 
 
-class MangoServiceV3Client:
+class MangoServiceV4Client:
     def __init__(self, base_url=None, timeout=None):
         self.timeout = timeout if timeout else 10.0
         if base_url:
@@ -78,7 +78,9 @@ class MangoServiceV3Client:
         )
         return parse_obj_as(List[Candle], json.loads(response.text)["result"])
 
-    def get_orders(self,) -> List[Order]:
+    def get_orders(
+        self,
+    ) -> List[Order]:
         response = httpx.get(f"{self.BASE_URL}/orders", timeout=self.timeout)
         return parse_obj_as(List[Order], json.loads(response.text)["result"])
 

@@ -406,7 +406,7 @@ class MangoSimpleClient {
         perpMarketConfig.baseDecimals,
         perpMarketConfig.quoteDecimals
       );
-      // TODO: this is a workaround, mango-v3 has a assertion for price>0 for all order types
+      // TODO: this is a workaround, mango-v4 has a assertion for price>0 for all order types
       // this will be removed soon hopefully
       price = orderType !== "market" ? price : 1;
       return await this.client.placePerpOrder(
