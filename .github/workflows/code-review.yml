@@ -28,7 +28,7 @@ jobs:
         run: cd ${{ env.workdir }} && yarn install --frozen-lockfile
 
       - name: Lint
-        run: cd ${{ env.workdir }} && yarn lint
+        run: cd ${{ env.workdir }} && yarn test
         
   sast:
     name: Security Scan
