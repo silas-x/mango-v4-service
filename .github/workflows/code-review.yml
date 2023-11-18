@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  workdir: 'mango-service-v4'
+
 jobs:
   lint:
     name: Lint
@@ -22,10 +25,10 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: cd mango-service-v4 && yarn install --frozen-lockfile
+        run: cd ${{ env.workdir }} && yarn install --frozen-lockfile
 
       - name: Lint
-        run: yarn lint
+        run: cd ${{ env.workdir }} && yarn lint
         
   sast:
     name: Security Scan
